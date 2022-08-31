@@ -16,6 +16,13 @@ public class Message {
         this.messageContent = messageContent;
     }
 
+    public String getMessageType() {
+        return messageType;
+    }
+
+    public Object getMessageContent() {
+        return messageContent;
+    }
 
     public static byte[] wrap(Message message) {
         return gson.toJson(message).getBytes();
