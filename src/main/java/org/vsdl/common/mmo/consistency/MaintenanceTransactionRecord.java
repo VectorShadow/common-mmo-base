@@ -44,4 +44,8 @@ public class MaintenanceTransactionRecord {
             throw new StaleVersionMaintenanceException("" + finalVersion, target.getVersion() + "[After Updates]");
         }
     }
+
+    public UUID getTargetUUID() {
+        return targetUUID;
+    }
 }
