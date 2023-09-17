@@ -1,7 +1,5 @@
 package org.vsdl.common.mmo.consistency;
 
-import org.vsdl.common.mmo.exceptions.UnrecognizedClassMaintenanceException;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -19,11 +17,8 @@ public class MaintenanceTransaction {
         this.parameters = parameters;
     }
 
-    public void applyTo(Maintainable target) throws UnrecognizedClassMaintenanceException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, ClassNotFoundException {
+    public void applyTo(Maintainable target) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, ClassNotFoundException {
         Class<?> targetClass = Class.forName(forClass);
-        if (!(target.getClass().equals(targetClass))) {
-            throw new UnrecognizedClassMaintenanceException(forClass, target.getClass().getName());
-        }
         Method targetMethod = targetClass.getMethod(methodToCall, parameterTypes);
         targetMethod.invoke(target, parameters);
         target.incrementVersion();

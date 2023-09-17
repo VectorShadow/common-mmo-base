@@ -6,7 +6,7 @@
 
     <groupId>org.vsdl.common.mmo</groupId>
     <artifactId>common-mmo-base</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 
     <properties>
         <maven.compiler.source>20</maven.compiler.source>

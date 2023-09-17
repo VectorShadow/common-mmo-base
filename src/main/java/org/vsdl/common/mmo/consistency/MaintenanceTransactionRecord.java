@@ -2,7 +2,6 @@ package org.vsdl.common.mmo.consistency;
 
 import org.vsdl.common.mmo.exceptions.MismatchedUUIDMaintenanceException;
 import org.vsdl.common.mmo.exceptions.StaleVersionMaintenanceException;
-import org.vsdl.common.mmo.exceptions.UnrecognizedClassMaintenanceException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class MaintenanceTransactionRecord {
         return this;
     }
 
-    public void applyTo(Maintainable target) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, IllegalStateException, IllegalArgumentException, UnrecognizedClassMaintenanceException, MismatchedUUIDMaintenanceException, StaleVersionMaintenanceException {
+    public void applyTo(Maintainable target) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, IllegalStateException, IllegalArgumentException, MismatchedUUIDMaintenanceException, StaleVersionMaintenanceException {
         if (!targetUUID.equals(target.getUUID())) {
             throw new MismatchedUUIDMaintenanceException(targetUUID.toString(), target.getUUID().toString());
         }

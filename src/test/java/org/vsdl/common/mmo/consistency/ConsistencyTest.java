@@ -3,12 +3,7 @@ package org.vsdl.common.mmo.consistency;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.vsdl.common.mmo.exceptions.MismatchedUUIDMaintenanceException;
-import org.vsdl.common.mmo.exceptions.StaleVersionMaintenanceException;
-import org.vsdl.common.mmo.exceptions.UnrecognizedClassMaintenanceException;
 import org.vsdl.common.mmo.fixtures.ConsistencyTestObject;
-
-import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
