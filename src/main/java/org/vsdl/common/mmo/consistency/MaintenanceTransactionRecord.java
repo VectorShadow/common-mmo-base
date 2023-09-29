@@ -3,12 +3,13 @@ package org.vsdl.common.mmo.consistency;
 import org.vsdl.common.mmo.exceptions.MismatchedUUIDMaintenanceException;
 import org.vsdl.common.mmo.exceptions.StaleVersionMaintenanceException;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class MaintenanceTransactionRecord {
+public class MaintenanceTransactionRecord implements Serializable {
     private final UUID targetUUID;
     private final long initialVersion;
     private final List<MaintenanceTransaction> MaintenanceTransactionList;
@@ -33,7 +34,7 @@ public class MaintenanceTransactionRecord {
             throw new MismatchedUUIDMaintenanceException(targetUUID.toString(), target.getUUID().toString());
         }
         if (initialVersion != target.getVersion()) {
-            throw new StaleVersionMaintenanceException("" + initialVersion, "" + target.getVersion() + "[Before Updates]");
+            throw new StaleVersionMaintenanceException("" + initialVersion, target.getVersion() + "[Before Updates]");
         }
         for(MaintenanceTransaction t : MaintenanceTransactionList) {
             t.applyTo(target);

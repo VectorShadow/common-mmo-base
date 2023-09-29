@@ -1,34 +1,42 @@
 package org.vsdl.common.mmo.comm;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import java.io.Serializable;
+
+import static org.vsdl.common.mmo.utils.GsonUtils.*;
 
 public class Message {
 
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
     private final String messageType;
 
-    private final Object messageContent;
+    private final String messageContent;
 
-    public Message(String messageType, Object messageContent) {
+    public Message(String messageType, Serializable messageContent) {
         this.messageType = messageType;
-        this.messageContent = messageContent;
+        this.messageContent = convertObjectToJSONString(messageContent);
     }
 
     public String getMessageType() {
         return messageType;
     }
 
+
+    public Object getMessageContent(Class contentClass) {
+        return convertJSONStringToObject(messageContent, contentClass);
+    }
+
     public Object getMessageContent() {
-        return messageContent;
+        return convertJSONStringToString(messageContent);
     }
 
     public static byte[] wrap(Message message) {
-        return gson.toJson(message).getBytes();
+        return convertObjectToJSONString(message).getBytes();
     }
 
     public static Message unwrap(String message) {
-        return gson.fromJson(message, Message.class);
+        return convertJSONStringToObject(message, Message.class);
+    }
+
+    public static Message unwrap(byte[] messageBytes) {
+        return unwrap(new String(messageBytes));
     }
 }

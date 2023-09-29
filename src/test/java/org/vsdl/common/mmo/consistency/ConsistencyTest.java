@@ -11,6 +11,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 public class ConsistencyTest {
 
+
+    @Test
+    public void testArgMismatch() {
+        assertThrows(IllegalArgumentException.class, () -> new MaintenanceTransaction("", "", new Class[]{}, new Object[]{new ConsistencyTestObject(UUID.randomUUID())}));
+    }
+
     @Test
     public void testSingleMaintenanceTransactionApplication() {
         UUID uuid = UUID.randomUUID();
