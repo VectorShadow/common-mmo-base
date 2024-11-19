@@ -15,17 +15,18 @@ public class MessageSocket extends Thread {
 
     private final BufferedReader READER;
 
-    private final MessageHandler HANDLER;
+    private final ConnectionHandler HANDLER;
 
     private final Socket SOCK;
 
     private boolean isActive;
 
-    public MessageSocket(Socket socket, MessageHandler handler) throws IOException {
+    public MessageSocket(Socket socket, ConnectionHandler handler) throws IOException {
         ID = nextId++;
         SOCK = socket;
         READER = new BufferedReader(new InputStreamReader(SOCK.getInputStream()));
         HANDLER = handler;
+        HANDLER.handleNewConnection(ID);
     }
 
     public void receive() {
@@ -37,9 +38,9 @@ public class MessageSocket extends Thread {
             } while (isActive);
             READER.close();
         } catch (InterruptedException | IOException e) {
-            HANDLER.handleException(e, ID);
+            HANDLER.handleExceptionWithConnection(e, ID);
         }
-        HANDLER.handleClosure(ID);
+        HANDLER.handleConnectionClosure(ID);
     }
 
     public void transmit(Message message) throws IOException {
