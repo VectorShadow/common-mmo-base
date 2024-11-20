@@ -28,7 +28,8 @@ public class MessageSocketManagerTest {
         connectionHandler = mock(ConnectionHandler.class);
         inputStream = mock(InputStream.class);
         socket = mock(Socket.class);
-        manager = new MessageSocketManager(connectionHandler);
+        MessageSocketManager.initialize(connectionHandler);
+        manager = MessageSocketManager.getInstance();
     }
 
     @Test

@@ -7,13 +7,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Objects.isNull;
+
 public class MessageSocketManager {
 
     private final ConnectionHandler connectionHandler;
     private final HashMap<Integer, MessageSocket> messageSockets = new HashMap<>();
 
+    private static MessageSocketManager instance;
 
-    public MessageSocketManager(final ConnectionHandler connectionHandler) {
+    public static void initialize(final ConnectionHandler connectionHandler) {
+        instance = new MessageSocketManager(connectionHandler);
+    }
+
+    public static MessageSocketManager getInstance() {
+        if (isNull(instance)) {
+            throw new IllegalStateException("MessageSocketManager has not been initialized");
+        }
+        return instance;
+    }
+
+    private MessageSocketManager(final ConnectionHandler connectionHandler) {
         this.connectionHandler = connectionHandler;
     }
 
