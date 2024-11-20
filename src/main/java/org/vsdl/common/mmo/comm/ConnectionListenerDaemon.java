@@ -24,7 +24,7 @@ public class ConnectionListenerDaemon extends Thread {
         }
     }
 
-    public void kill() {
+    public static void kill() {
         isAlive = false;
     }
 
