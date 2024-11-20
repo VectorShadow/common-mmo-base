@@ -20,6 +20,7 @@ public class MessageSocketManager {
     public void registerConnection(Socket socket) throws IOException {
         MessageSocket messageSocket = new MessageSocket(socket, connectionHandler);
         messageSockets.put(messageSocket.getID(), messageSocket);
+        messageSocket.start();
     }
 
     public List<MessageSocket> getMessageSockets() {
