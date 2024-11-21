@@ -1,9 +1,12 @@
 package org.vsdl.common.mmo.comm;
 
+import org.vsdl.common.log.VLogger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.Arrays;
 
 import static org.vsdl.common.mmo.comm.Message.*;
 
@@ -26,15 +29,22 @@ public class MessageSocket extends Thread {
         SOCK = socket;
         READER = new BufferedReader(new InputStreamReader(SOCK.getInputStream()));
         HANDLER = handler;
-        HANDLER.handleNewConnection(ID);
     }
 
     public void receive() {
+        HANDLER.handleNewConnection(ID);
+        char[] readBuffer;
+        int readCount;
+        String message;
         try {
             do {
+                readBuffer = new char[8192];
                 Thread.sleep(10);
                 if (SOCK.getInputStream().available() <= 0) continue;
-                HANDLER.handleMessage(unwrap(READER.readLine()), ID);
+                readCount = READER.read(readBuffer);
+                message = new String(Arrays.copyOf(readBuffer, readCount));
+                VLogger.log("Receiving message [" + message + "] on " + this + ".", VLogger.Level.TRACE);
+                HANDLER.handleMessage(unwrap(message), ID);
             } while (isActive);
             READER.close();
         } catch (InterruptedException | IOException e) {
@@ -44,6 +54,7 @@ public class MessageSocket extends Thread {
     }
 
     public void transmit(Message message) throws IOException {
+        VLogger.log("Transmitting message [Type: " + message.getMessageType() + ", Content: " + message.getMessageContent() + "] on " + this + ".", VLogger.Level.TRACE);
         SOCK.getOutputStream().write(wrap(message));
     }
 
@@ -61,7 +72,16 @@ public class MessageSocket extends Thread {
         return ID;
     }
 
+    public int getPort() {
+        return SOCK.getPort();
+    }
+
     public boolean isActive() {
-        return isActive;
+        return SOCK.isConnected() && isActive;
+    }
+
+    @Override
+    public String toString() {
+        return "MessageSocket [ID=" + ID + ", Port=" + SOCK.getPort() + ", isActive=" + isActive + "]";
     }
 }

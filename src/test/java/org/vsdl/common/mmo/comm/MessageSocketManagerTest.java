@@ -10,7 +10,6 @@ import java.net.Socket;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 public class MessageSocketManagerTest {
@@ -37,7 +36,6 @@ public class MessageSocketManagerTest {
         when(socket.isConnected()).thenReturn(true);
         when(socket.getInputStream()).thenReturn(inputStream);
         manager.registerConnection(socket);
-        verify(connectionHandler, times(1)).handleNewConnection(anyInt());
         assertFalse(manager.getMessageSockets().isEmpty());
     }
 

@@ -10,7 +10,12 @@ public class Message {
 
     private final String messageContent;
 
+    public Message(final String messageType) {
+        this(messageType, messageType);
+    }
+
     public Message(String messageType, Serializable messageContent) {
+        if (messageType.isEmpty()) throw new IllegalArgumentException("Message type cannot be empty");
         this.messageType = messageType;
         this.messageContent = convertObjectToJSONString(messageContent);
     }
