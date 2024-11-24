@@ -54,7 +54,7 @@ public class MessageSocket extends Thread {
     }
 
     public void transmit(Message message) throws IOException {
-        VLogger.log("Transmitting message [Type: " + message.getMessageType() + ", Content: " + message.getMessageContent() + "] on " + this + ".", VLogger.Level.TRACE);
+        VLogger.log("Transmitting message [Type: " + message.getMessageType() + "] on " + this + ".", VLogger.Level.TRACE);
         SOCK.getOutputStream().write(wrap(message));
     }
 
